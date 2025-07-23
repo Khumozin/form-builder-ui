@@ -56,3 +56,8 @@
         @apply border-border;
     }
 }
+
+.cdk-drop-list-dragging:not(.elements-menu) {
+    border: 2px solid !important;
+    background-color: lightgray !important;
+}

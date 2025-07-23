@@ -1,11 +1,18 @@
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { provideIcons } from '@ng-icons/core';
+import { lucideSquareCheck, lucideTextCursorInput } from '@ng-icons/lucide';
+
+import { Canvas } from './components/canvas/canvas';
+import { FieldSettings } from './components/field-settings/field-settings';
+import { FormElementsMenu } from './components/form-elements-menu/form-elements-menu';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [FormElementsMenu, Canvas, FieldSettings, DragDropModule],
+  providers: [provideIcons({ lucideTextCursorInput, lucideSquareCheck })],
   templateUrl: './app.html',
-  styleUrl: './app.scss'
+  styleUrl: './app.scss',
 })
 export class App {
   protected title = 'form-builder-ui';
