@@ -1,0 +1,9 @@
+<hlm-form-field>
+    <label hlmLabel
+           [for]="field().id">
+        {{ field().label }}
+    </label>
+    <input hlmInput
+           [id]="field().id"
+           [type]="field().inputType || 'text'" />
+</hlm-form-field>
