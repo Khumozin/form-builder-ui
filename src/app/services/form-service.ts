@@ -49,4 +49,68 @@ export class FormService {
 
     this._rows.set(newRows);
   }
+
+  addRow(): void {
+    const newRow: FormRow = {
+      id: crypto.randomUUID(),
+      fields: [],
+    };
+
+    const rows = this._rows();
+
+    this._rows.set([...rows, newRow]);
+  }
+
+  deleteRow(rowId: string): void {
+    if (this._rows().length === 1) {
+      return;
+    }
+
+    const rows = this._rows();
+    const newRows = rows.filter((row) => row.id !== rowId);
+    this._rows.set(newRows);
+  }
+
+  moveField(
+    fieldId: string,
+    sourceRowId: string,
+    targetRowId: string,
+    targetIndex: number = -1
+  ): void {
+    const rows = this._rows();
+
+    let fieldToMove: FormField | undefined;
+    let sourceRowIndex = -1;
+    let sourceFieldIndex = -1;
+
+    rows.forEach((row, rowIndex) => {
+      fieldToMove = undefined;
+
+      if (row.id === sourceRowId) {
+        sourceRowIndex = rowIndex;
+        sourceFieldIndex = row.fields.findIndex(
+          (field) => field.id === fieldId
+        );
+
+        if (sourceFieldIndex >= 0) {
+          fieldToMove = row.fields[sourceFieldIndex];
+        }
+      }
+
+      if (!fieldToMove) return;
+
+      const newRows = [...rows];
+      const fieldWithRemovedField = newRows[sourceRowIndex].fields.filter(
+        (field) => field.id !== fieldId
+      );
+      newRows[sourceRowIndex].fields = fieldWithRemovedField;
+
+      const targetRowIndex = newRows.findIndex((row) => row.id === targetRowId);
+      if (targetRowIndex >= 0) {
+        const targetFields = [...newRows[targetRowIndex].fields];
+        targetFields.splice(targetIndex, 0, fieldToMove);
+        newRows[targetRowIndex].fields = targetFields;
+      }
+    });
+  }
 }
