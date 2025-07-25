@@ -1,0 +1,18 @@
+<hlm-form-field>
+    <label hlmLabel
+           [for]="field().id">
+        {{ field().label }}
+    </label>
+    <brn-select class="inline-block w-full">
+        <hlm-select-trigger class="w-full">
+            <hlm-select-value />
+        </hlm-select-trigger>
+        <hlm-select-content>
+            @for (option of field().options || []; track option.value) {
+            <hlm-option [value]="option.value">
+                {{ option.label }}
+            </hlm-option>
+            }
+        </hlm-select-content>
+    </brn-select>
+</hlm-form-field>

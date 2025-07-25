@@ -5,10 +5,11 @@ import { HlmCheckboxComponent } from '@spartan-ng/helm/checkbox';
 import { HlmFormFieldModule } from '@spartan-ng/helm/form-field';
 import { HlmInputDirective } from '@spartan-ng/helm/input';
 import { HlmLabelDirective } from '@spartan-ng/helm/label';
-import { HlmSelectModule } from '@spartan-ng/helm/select';
+import { HlmSelectImports } from '@spartan-ng/helm/select';
 
 import { FieldTypesService } from '../../services/field-types';
 import { FormService } from '../../services/form-service';
+import { DynamicOptions } from './dynamic-options/dynamic-options';
 
 @Component({
   selector: 'app-field-settings',
@@ -19,8 +20,8 @@ import { FormService } from '../../services/form-service';
     HlmCheckboxComponent,
     BrnSelectImports,
     FormsModule,
-    HlmSelectModule,
-    // HlmSelectImports,
+    HlmSelectImports,
+    DynamicOptions,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './field-settings.html',
