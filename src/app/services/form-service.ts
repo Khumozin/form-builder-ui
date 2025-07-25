@@ -159,4 +159,8 @@ export class FormService {
       this._rows.set(newRows);
     }
   }
+
+  saveForm(): void {
+    console.log(this._rows());
+  }
 }
