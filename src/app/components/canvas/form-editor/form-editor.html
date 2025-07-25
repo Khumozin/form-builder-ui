@@ -1,6 +1,6 @@
 <div class="p-4">
     @for (row of formService.rows(); track row.id) {
-    <div class="p-5 pt-2 mb-4 bg-white rounded-lg border-2 border-dashed border-gray-200"
+    <div class="relative p-5 pt-2 ps-10 mb-4 bg-white rounded-lg border-2 border-dashed border-gray-200"
          cdkDropList
          [cdkDropListData]="row.id"
          [cdkDropListOrientation]="'mixed'"
@@ -30,6 +30,28 @@
                 Drag and drop form elements here
             </div>
             }
+        </div>
+        <div class="absolute left-1 flex gap-0 flex-col top-1/2 -translate-y-1/2">
+            <button hlmBtn
+                    size="icon"
+                    variant="ghost"
+                    class="size-8"
+                    [disabled]="$first"
+                    (click)="formService.moveRowUp(row.id)">
+                <ng-icon hlm
+                         size="xs"
+                         name="lucideChevronUp" />
+            </button>
+            <button hlmBtn
+                    size="icon"
+                    variant="ghost"
+                    class="size-8"
+                    [disabled]="$last"
+                    (click)="formService.moveRowDown(row.id)">
+                <ng-icon hlm
+                         size="xs"
+                         name="lucideChevronDown" />
+            </button>
         </div>
     </div>
     }

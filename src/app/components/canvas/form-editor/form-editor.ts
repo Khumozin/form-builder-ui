@@ -1,7 +1,7 @@
 import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
 import { Component, inject } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { lucideTrash } from '@ng-icons/lucide';
+import { lucideChevronDown, lucideChevronUp, lucideTrash } from '@ng-icons/lucide';
 import { HlmButtonDirective } from '@spartan-ng/helm/button';
 import { HlmIconDirective } from '@spartan-ng/helm/icon';
 
@@ -18,7 +18,9 @@ import { FormFieldComponent } from '../form-field/form-field';
     NgIcon,
     HlmIconDirective,
   ],
-  providers: [provideIcons({ lucideTrash })],
+  providers: [
+    provideIcons({ lucideTrash, lucideChevronUp, lucideChevronDown }),
+  ],
   templateUrl: './form-editor.html',
   styleUrl: './form-editor.scss',
 })
