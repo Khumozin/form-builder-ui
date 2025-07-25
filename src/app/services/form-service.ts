@@ -1,12 +1,14 @@
-import { computed, Injectable, signal } from '@angular/core';
+import { ApplicationRef, computed, inject, Injectable, signal } from '@angular/core';
 
 import { FormField } from '../models/field';
 import { FormRow } from '../models/form';
+import { startViewTransition } from '../utils/view-transition';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FormService {
+  private _appRef = inject(ApplicationRef);
   private _rows = signal<FormRow[]>([]);
   private _selectedFieldId = signal<string | null>(null);
   public readonly rows = this._rows.asReadonly();
@@ -44,7 +46,9 @@ export class FormService {
       return row;
     });
 
-    this._rows.set(newRows);
+    startViewTransition(() => {
+      this._rows.set(newRows);
+    });
   }
 
   deleteField(fieldId: string) {
@@ -54,7 +58,11 @@ export class FormService {
       fields: row.fields.filter((field) => field.id !== fieldId),
     }));
 
-    this._rows.set(newRows);
+    startViewTransition(() => {
+      this._rows.set(newRows);
+
+      this._appRef.tick();
+    });
   }
 
   addRow(): void {
@@ -65,7 +73,9 @@ export class FormService {
 
     const rows = this._rows();
 
-    this._rows.set([...rows, newRow]);
+    startViewTransition(() => {
+      this._rows.set([...rows, newRow]);
+    });
   }
 
   deleteRow(rowId: string): void {
@@ -75,7 +85,10 @@ export class FormService {
 
     const rows = this._rows();
     const newRows = rows.filter((row) => row.id !== rowId);
-    this._rows.set(newRows);
+    startViewTransition(() => {
+      this._rows.set(newRows);
+      this._appRef.tick();
+    });
   }
 
   moveField(
@@ -84,25 +97,25 @@ export class FormService {
     targetRowId: string,
     targetIndex: number = -1
   ): void {
-    const rows = this._rows();
+    startViewTransition(() => {
+      const rows = this._rows();
 
-    let fieldToMove: FormField | undefined;
-    let sourceRowIndex = -1;
-    let sourceFieldIndex = -1;
+      let fieldToMove: FormField | undefined;
+      let sourceRowIndex = -1;
+      let sourceFieldIndex = -1;
 
-    rows.forEach((row, rowIndex) => {
-      fieldToMove = undefined;
+      rows.forEach((row, rowIndex) => {
+        if (row.id === sourceRowId) {
+          sourceRowIndex = rowIndex;
+          sourceFieldIndex = row.fields.findIndex(
+            (field) => field.id === fieldId
+          );
 
-      if (row.id === sourceRowId) {
-        sourceRowIndex = rowIndex;
-        sourceFieldIndex = row.fields.findIndex(
-          (field) => field.id === fieldId
-        );
-
-        if (sourceFieldIndex >= 0) {
-          fieldToMove = row.fields[sourceFieldIndex];
+          if (sourceFieldIndex >= 0) {
+            fieldToMove = row.fields[sourceFieldIndex];
+          }
         }
-      }
+      });
 
       if (!fieldToMove) return;
 
@@ -118,6 +131,9 @@ export class FormService {
         targetFields.splice(targetIndex, 0, fieldToMove);
         newRows[targetRowIndex].fields = targetFields;
       }
+
+      this._rows.set(newRows);
+      this._appRef.tick();
     });
   }
 
@@ -144,7 +160,9 @@ export class FormService {
       const temp = newRows[index - 1];
       newRows[index - 1] = newRows[index];
       newRows[index] = temp;
-      this._rows.set(newRows);
+      startViewTransition(() => {
+        this._rows.set(newRows);
+      });
     }
   }
 
@@ -156,7 +174,9 @@ export class FormService {
       const temp = newRows[index + 1];
       newRows[index + 1] = newRows[index];
       newRows[index] = temp;
-      this._rows.set(newRows);
+      startViewTransition(() => {
+        this._rows.set(newRows);
+      });
     }
   }
 
