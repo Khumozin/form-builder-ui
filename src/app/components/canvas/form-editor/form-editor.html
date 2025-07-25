@@ -4,6 +4,7 @@
          cdkDropList
          [cdkDropListData]="row.id"
          [cdkDropListOrientation]="'mixed'"
+         [style.view-transition-name]="'row-' + row.id"
          (cdkDropListDropped)="onDropInRow($event, row.id)">
         <div class="flex justify-between items-center">
             <span>Row</span>
@@ -20,10 +21,12 @@
         </div>
         <div class="flex gap-4 flex-wrap">
             @for (field of row.fields; track field.id) {
-            <app-form-field cdkDrag
+            <app-form-field class="flex-1"
+                            cdkDrag
                             [cdkDragData]="field"
-                            class="flex-1"
-                            [field]="field" />
+                            [field]="field"
+                            [style.view-transition-name]="'field-' + field.id"
+                            [style.view-transition-class]="'field-transition'" />
             } @empty {
             <div
                  class="w-full p-4 border border-dashed border-primary-container rounded-lg text-sm text-center text-gray-300">

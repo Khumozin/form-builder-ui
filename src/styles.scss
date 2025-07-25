@@ -61,3 +61,8 @@
     border: 2px solid !important;
     background-color: lightgray !important;
 }
+
+::view-transition-old(.field-transition),
+::view-transition-new(.field-transition) {
+    height: 100%;
+}
