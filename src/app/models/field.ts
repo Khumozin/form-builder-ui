@@ -9,7 +9,7 @@ export interface FieldTypeDefinition {
   component: Type<unknown>;
 }
 
-export type FieldType = 'text' | 'checkbox' | 'select';
+export type FieldType = 'text' | 'checkbox' | 'select' | 'dynamic-options';
 export interface FieldSettingsDefinition {
   type: FieldType;
   key: string;
@@ -29,4 +29,5 @@ export interface FormField {
   required: boolean;
   inputType?: string;
   placeholder?: string;
+  options?: OptionItem[]
 }
