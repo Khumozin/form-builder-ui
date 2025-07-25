@@ -4,7 +4,7 @@ import { CheckboxField } from '../components/field-types/checkbox-field/checkbox
 import { TextField } from '../components/field-types/text-field/text-field';
 import { FieldTypeDefinition } from '../models/field';
 
-const TEXT_FIELD_DEFINITION = {
+const TEXT_FIELD_DEFINITION: FieldTypeDefinition = {
   type: 'text',
   label: 'Text Field',
   icon: 'lucideTextCursorInput',
@@ -12,6 +12,46 @@ const TEXT_FIELD_DEFINITION = {
     label: 'Text Field',
     required: false,
   },
+  settingsConfig: [
+    {
+      type: 'text',
+      key: 'label',
+      label: 'Label',
+    },
+    {
+      type: 'text',
+      key: 'placeholder',
+      label: 'Placeholder',
+    },
+    {
+      type: 'checkbox',
+      key: 'required',
+      label: 'Required',
+    },
+    {
+      type: 'select',
+      key: 'inputType',
+      label: 'Input Type',
+      options: [
+        {
+          value: 'text',
+          label: 'Text',
+        },
+        {
+          value: 'number',
+          label: 'Number',
+        },
+        {
+          value: 'email',
+          label: 'Email',
+        },
+        {
+          value: 'tel',
+          label: 'Phone',
+        },
+      ],
+    },
+  ],
   component: TextField,
 };
 
@@ -21,7 +61,7 @@ const TEXT_FIELD_DEFINITION = {
 //   icon: 'lucideText',
 // };
 
-const CHECKBOX_FIELD_DEFINITION = {
+const CHECKBOX_FIELD_DEFINITION: FieldTypeDefinition = {
   type: 'checkbox',
   label: 'Checkbox',
   icon: 'lucideSquareCheck',
@@ -29,6 +69,10 @@ const CHECKBOX_FIELD_DEFINITION = {
     label: 'Checkbox Field',
     required: false,
   },
+  settingsConfig: [
+    { type: 'text', key: 'label', label: 'Label' },
+    { type: 'checkbox', key: 'required', label: 'Required' },
+  ],
   component: CheckboxField,
 };
 
