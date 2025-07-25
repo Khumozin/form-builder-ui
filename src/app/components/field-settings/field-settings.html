@@ -1,1 +1,58 @@
-<div class="p-4 bg-white rounded-lg h-[calc(100vh-150px)] overflow-auto border-gray-200 shadow-sm"></div>
+<div class="p-4 bg-white rounded-lg h-[calc(100vh-150px)] overflow-auto border-gray-200 shadow-sm">
+    @if (formService.selectedField(); as selectedField) {
+    <h3 class="text-xl font-medium mb-6">Field Properties</h3>
+    <div class="flex flex-col gap-6">
+        @for (setting of fieldSettings(); track setting.key) {
+        @switch (setting.type) {
+        @case ('text') {
+        <hlm-form-field>
+            <label hlmLabel
+                   [for]="setting.key">
+                {{ setting.label }}
+            </label>
+            <input hlmInput
+                   [id]="setting.key"
+                   [ngModel]="fieldValues()[setting.key]"
+                   (ngModelChange)="updateField(selectedField.id, setting.key, $event)" />
+        </hlm-form-field>
+        }
+        @case ('checkbox') {
+        <div class="flex items-center gap-3">
+            <hlm-checkbox [id]="setting.key"
+                          [ngModel]="fieldValues()[setting.key]"
+                          (ngModelChange)="updateField(selectedField.id, setting.key, $event)" />
+            <label hlmLabel
+                   [for]="setting.key">
+                {{ setting.label }}
+            </label>
+        </div>
+        }
+        @case ('select') {
+        <hlm-form-field>
+            <label hlmLabel
+                   [for]="setting.key">
+                {{ setting.label }}
+            </label>
+            <brn-select class="inline-block w-full"
+                        [ngModel]="fieldValues()[setting.key]"
+                        (ngModelChange)="updateField(selectedField.id, setting.key, $event)">
+                <hlm-select-trigger class="w-full">
+                    <hlm-select-value />
+                </hlm-select-trigger>
+                <hlm-select-content>
+                    @for (option of setting.options || []; track option.value) {
+                    <hlm-option [value]="option.value">
+                        {{ option.label }}
+                    </hlm-option>
+                    }
+                </hlm-select-content>
+            </brn-select>
+        </hlm-form-field>
+        }
+        }
+        }
+    </div>
+    } @else {
+    <p class="text-xs text-gray-400">Select a component to configure its properties</p>
+    }
+</div>
